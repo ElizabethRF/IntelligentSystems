@@ -1,7 +1,7 @@
 /*
 Elizabeth Rodríguez Fallas
 A01334353 
-Knight's 
+Knight's tour 
 */
 
 using System;
@@ -10,54 +10,24 @@ class Knight {
   public int xPosition; 
   public int yPosition; 
   public Board board; 
-
+  
   public Knight(int randomX, int randomY, Board board){
     xPosition = randomX; 
     yPosition = randomY; 
     this.board = board; 
+    board.setKnightPosition(xPosition,yPosition);
   }
 
   public void searchTour(){
-    Console.WriteLine ("Searching tour");
-    // from current position calculate postiions
-    // from that possibilities get values 
-    int[]  valueFuturePositions(); 
-    // from that values choose the smaller one 
-    // move to the smallest one 
-    // -> mark current place as visited in board 
-    // -> change knight coordinates to new position
-  
+    // From current position calculate possible future possitions and its weight 
+    int[,] posCoord = calculatePositions(this.xPosition, this.yPosition);
+    int[,] posCoordValues = valueFuturePositions(posCoord);
+    displayValues(posCoordValues);
+     
 
-    // repeat until it reaches all the squares 
   }
 
-    public int[] valueFuturePositions(){
-       int[,] possibilities =  calculatePositions(xPosition,yPosition);
-       int[] valueForPosition = new int[8]; 
-        
-        for(int i = 0; i <  possibilities.GetLength(0); i++){
-            valueForPosition[i] = countFuturePossibilities(possibilities[i,0], possibilities[i,1]);
-        }
-
-        return valueForPosition; 
-
-    }
-
-
-    public int chooseBestPlace(int[] valueForPosition){
-      int minValue  = 10; 
-      int minIndex = 0;
-
-      for(int i = 0; i <  possibilities.GetLength(0); i++){
-        if(valueForPosition[i] < minValue){
-            minValue = valueForPosition[i]; 
-            minIndex = i; 
-        }
-      }
-
-    }
-  
-  public int[] countFuturePossibilities(int x, int y){
+  public int countFuturePossibilities(int x, int y){
     int count = 0; 
     int[,] values = calculatePositions(x,y);
     for(int i = 0; i < values.GetLength(0); i++){
@@ -65,16 +35,26 @@ class Knight {
             count += 1; 
         }
     }
-    
     return count; 
   }
 
+  public int[,] valueFuturePositions(int[,] posCoord){
+    int[,] possibilities = new int[8,3];
+    for(int i = 0; i <  posCoord.GetLength(0); i++){
+        possibilities[i,0] = posCoord[i,0]; // x coordinate 
+        possibilities[i,1] = posCoord[i,1]; // y coordinate 
+        possibilities[i,2] = countFuturePossibilities(possibilities[i,0],possibilities[i,1]);
+    }
+    return possibilities; 
+  }
+  
   // calculate positions from coordinate 
   public int[,] calculatePositions(int x, int y){
     int[,] possibilities = new int[8,2]; 
     // A
-    possibilities[0,0] = x+2;
-    possibilities[0,1] = y+1;
+    possibilities[0,0] = x+2; // x coordinate 
+    possibilities[0,1] = y+1; // y coordinate 
+
     // B 
     possibilities[1,0] = x+1;
     possibilities[1,1] = y+2;
@@ -107,7 +87,12 @@ class Knight {
     return possibilities; 
   }
 
-
+  public void displayValues(int[,] posValues){
+    for(int i = 0; i < posValues.GetLength(0);i++){
+      board.setValueForPosition(posValues[i,0], posValues[i,1], posValues[i,2]);
+    }
+    board.printBoard(); 
+  }
 
   
 
