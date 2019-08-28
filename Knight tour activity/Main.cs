@@ -4,6 +4,26 @@ A01334353
 Knight's tour  
 */
 
+/* 
+Problem formulation
+Initial state. IN(s)  Bo, Xi. Set by a random number. 
+Actions. Given a state s, ACTION(s) returns the set of applicable states and their weights from s. 
+Transition model. Result(s,a) returns the state from doing action a in state s. Result(IN(s),GO(t)) = IN(u)
+Goal: all cells visited. 
+Heuristic:  Warnsdorfs rules. 
+*/
+
+
+/*
+Environment Characterization
+Knights tour is 
+- fully observable 
+- deterministic 
+- sequential 
+- static 
+- known 
+*/
+
 using System;
 
 class MainClass {
