@@ -36,6 +36,31 @@ class Board {
     board[xPos,yPos]= value; 
   }
 
+  public bool allVisited(){
+    int boardSum  = 0; 
+    for(int i = 0; i < 10; i++){
+      for(int j = 0; j < 10; j++){
+        boardSum += board[i,j]; 
+      }
+
+    }
+    if(boardSum == -100){
+        return true;
+    }
+    return false; 
+  }
+
+  public void resetBoard(){
+    for(int i = 0; i < 10; i++){
+      for(int j = 0; j < 10; j++){
+        if(board[i,j] != -1){
+          board[i,j] = 0; 
+        }
+      }
+
+    }
+  }
+
 
 
 
